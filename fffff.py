@@ -6,10 +6,10 @@ import sys
 
 
 # 日本語ファイル名も読見とれるようにするためにOverride
-def imread(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
+def image_read(filename, flags=cv2.IMREAD_COLOR, dtype=np.uint8):
     try:
         n = np.fromfile(filename, dtype)
-        img = cv2.imdecode(n, flags)
+        image = cv2.imdecode(n, flags)
         return img
     except Exception as e:
         print(e)
@@ -41,7 +41,7 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
     basename = os.path.basename(path)
     folder_name = os.path.splitext(basename)[0]
     os.mkdir(dir_path + folder_name)
-    img = imread(path)
+    img = image_read(path)
     file_num = input(f"{folder_name} の附番を入力してください")
     for size_folder in size_dict.keys():
         os.mkdir(dir_path + folder_name + "/" + size_folder)
