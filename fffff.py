@@ -34,9 +34,10 @@ def imwrite(filename, img, params=None):
 
 
 size_dict = {"640x640": [640, 640], "400x400": [400, 400]}
-file_type = 'jpg'
+read_file_type = 'jpg'
+save_file_type = 'png'
 dir_path = 'C:/test222/'
-for path in glob.glob(os.path.join(dir_path, f'*.{file_type}')):
+for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
     basename = os.path.basename(path)
     folder_name = os.path.splitext(basename)[0]
     os.mkdir(dir_path + folder_name)
@@ -47,9 +48,9 @@ for path in glob.glob(os.path.join(dir_path, f'*.{file_type}')):
         sizing_dir_path = dir_path + folder_name + "/" + size_folder
         print(sizing_dir_path)
         for i in range(0, 11):
-            imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + ".jpg", img)
+            imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + f'.{save_file_type}', img)
 
 # img = cv2.imread("C:/test222/aaa.jpg")  # read image
 # img = cv2.resize(img, (300, 300))
 # file_name = "300x300"
-# cv2.imwrite(f"{dir_path}{file_name}.{file_type}", img, None)
+# cv2.imwrite(f"{dir_path}{file_name}.{read_file_type}", img, None)
