@@ -55,10 +55,17 @@ def imwrite(filename, img, params=None):
 
 def get_file_name(file_path) -> str:
     """
-    指定されたファイルパスからファイル名だけを返す
-    :param file_path:
-    :return: file_name
+    Parameters
+    ----------
+    file_path : str
+        this path is including the file name
+
+    Returns
+    -------
+    str
+        return filename without extension
     """
+
     return os.path.splitext(os.path.basename(file_path))[0]
 
 
@@ -94,8 +101,3 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
             for i in range(1, 6):
                 imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + '.png', img)
                 imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(i) + '.png', img)
-
-# img = cv2.imread("C:/test222/aaa.jpg")  # read image
-# img = cv2.resize(img, (300, 300))
-# file_name = "300x300"
-# cv2.imwrite(f"{dir_path}{file_name}.{read_file_type}", img, None)
