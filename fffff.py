@@ -80,7 +80,7 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
 
     for folder_name, img_size in size_dict.items():
         numbering_folder = os.path.join(character_folder_path, folder_name)
-        if 'アップ' not in file_name and folder_name == '640x640':
+        if 'アップ' not in file_name and 'スキルソウル' not in file_name and folder_name == '640x640':
             img = cv2.resize(img, img_size)
             if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
                 os.mkdir(numbering_folder)
@@ -110,7 +110,7 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
                 for i in range(1, 6):
                     cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + '.png', img)
                     cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(i) + '.png', img)
-        elif 'アップ' in file_name and 'ロゴ無し' not in file_name and folder_name != '640x640' and folder_name != '320x320':
+        elif 'アップ' in file_name and 'ロゴ無し' not in file_name and 'スキルソウル' not in file_name and folder_name != '640x640' and folder_name != '320x320':
             img = cv2.resize(img, img_size)
             if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
                 os.mkdir(numbering_folder)
@@ -122,12 +122,12 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
                     else:
                         cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(i) + '.png', img)
 
-            elif not os.path.exists(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name):
-                os.mkdir(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name)
-                sizing_dir_path = dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name
-                for i in range(1, 6):
-                    cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + '.png', img)
-                    cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(i) + '.png', img)
+            # elif not os.path.exists(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name):
+            #     os.mkdir(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name)
+            #     sizing_dir_path = dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name
+            #     for i in range(1, 6):
+            #         cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + '.png', img)
+            #         cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(i) + '.png', img)
         elif ('アップ' and 'ロゴ無し') in file_name and folder_name == '320x320':
             mg = cv2.resize(img, img_size)
             if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
@@ -140,15 +140,23 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
                     else:
                         cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(i) + '.png', img)
 
-            elif not os.path.exists(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name):
+            # elif not os.path.exists(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name):
+            #     os.mkdir(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name)
+            #     sizing_dir_path = dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name
+            #     for i in range(1, 6):
+            #         cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + '.png', img)
+            #         cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(i) + '.png', img)
+        elif "スキルソウル" in file_name:
+            if not os.path.exists(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name):
                 os.mkdir(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name)
                 sizing_dir_path = dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name
                 for i in range(1, 6):
                     cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + '.png', img)
                     cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(i) + '.png', img)
+
     if 'ロゴ無し' in file_name or 'アップ' in file_name:
         files = os.listdir(dir_path + file_name)
         files_dir = [f for f in files if os.path.isdir(os.path.join(dir_path + file_name, f))]
         for folder in files_dir:
             shutil.move(dir_path + file_name + '/' + folder, dir_path + file_name.split('アップ')[0])
-        shutil.rmtree(dir_path + file_name)
+        # shutil.rmtree(dir_path + file_name)
