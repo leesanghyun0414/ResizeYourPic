@@ -153,6 +153,11 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
                 for i in range(1, 6):
                     cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(i) + '.png', img)
                     cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(i) + '.png', img)
+        if "スキルソウル" in file_name:
+            sizing_dir_path = dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name
+            for i in range(1, 6):
+                cv2_jp.imwrite(sizing_dir_path + "/" + "file_num" + "0" + str(i) + '.png', img)
+                cv2_jp.imwrite(sizing_dir_path + "/" + "file_num_female" + "0" + str(i) + '.png', img)
 
     if 'ロゴ無し' in file_name or 'アップ' in file_name:
         files = os.listdir(dir_path + file_name)
