@@ -39,9 +39,21 @@ def background_transparency(img_path) -> Any:
     processing_img : buffer
         白の部分[RGB(255, 255, 255)]を透明化した画像bufferを返す
     """
-    processing_img = cv2_jp.image_read(img_path)
-    processing_img = cv2.cvtColor(processing_img, cv2.COLOR_RGB2RGBA)
-    processing_img[..., 3] = np.where(np.all(processing_img == 255, axis=-1), 0, 255)
+
+    processing_img = cv2_jp.image_read(img_path, cv2.IMREAD_UNCHANGED)
+    # color_lower = np.array([0, 0, 0])
+    # color_upper = np.array([0, 0, 0])
+    # img_mask = cv2.inRange(processing_img, color_lower, color_upper)
+    # img_bool = cv2.bitwise_not(processing_img, processing_img, mask=img_mask)
+    # processing_img = cv2.cvtColor(processing_img, cv2.COLOR_RGB2RGBA)
+    # processing_img[..., 3] = np.where(np.all(processing_img > 240, axis=-1), 0, 255)
+    # gray = cv2.cvtColor(processing_img, cv2.COLOR_BGR2GRAY)
+    # thresh, binary = cv2.threshold(gray, 230, 255, cv2.THRESH_BINARY_INV)
+    # contours, hierarchy = cv2.findContours(binary, cv2.RETR_EXTERNAL, cv2.CHAIN_APPROX_SIMPLE)
+    # mask = np.zeros_like(binary)
+    # cv2.drawContours(mask, contours, -1, color=255, thickness=-1)
+    # rgba = cv2.cvtColor(processing_img, cv2.COLOR_RGB2BGRA)
+    # rgba[..., 3] = mask
     return processing_img
 
 
@@ -49,7 +61,7 @@ def background_transparency(img_path) -> Any:
 # value : 画像のサイズ
 folder_name_and_size_dict = {"640x640": (640, 640), "400x400": (400, 400), "320x320": (320, 320), "200x200": (200, 200),
                              "100x100": (100, 100), "50x50": (50, 50)}
-read_file_type = 'jpg'
+read_file_type = 'png'
 save_file_type = 'png'
 dir_path = 'C:/test222/'
 
@@ -80,7 +92,8 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
     # フォルダ名と画像サイズのdictをループさせる
     for folder_name, img_size in folder_name_and_size_dict.items():
         numbering_folder = os.path.join(character_folder_path, folder_name)
-        if 'アップ' not in file_name and 'スキルソウル' not in file_name and folder_name == '640x640':
+        if 'アップ' not in file_name and 'スキルソウル' not in file_name and (
+                folder_name == '640x640' or folder_name == '320x320'):
             img = cv2.resize(img, img_size)
             if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
                 os.mkdir(numbering_folder)
@@ -117,19 +130,20 @@ for path in glob.glob(os.path.join(dir_path, f'*.{read_file_type}')):
                     else:
                         cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(num) + '.png', img)
         # 320x320サイズにはロゴ無しイメージを保存する
-        elif ('アップ' and 'ロゴ無し') in file_name and folder_name == '320x320':
-            img = cv2.resize(img, img_size)
-            if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
-                os.mkdir(numbering_folder)
-                sizing_dir_path = numbering_folder
-                cv2_jp.imwrite(sizing_dir_path + "/" + "0" + file_num + '.png', img)
-                for num in range(1, 11):
-                    if num != 10:
-                        cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(num) + '.png', img)
-                    else:
-                        cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(num) + '.png', img)
+        # elif ('アップ' and 'ロゴ無し') in file_name and folder_name == '320x320':
+        #     img = cv2.resize(img, img_size)
+        #     if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
+        #         os.mkdir(numbering_folder)
+        #         sizing_dir_path = numbering_folder
+        #         cv2_jp.imwrite(sizing_dir_path + "/" + "0" + file_num + '.png', img)
+        #         for num in range(1, 11):
+        #             if num != 10:
+        #                 cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(num) + '.png', img)
+        #             else:
+        #                 cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(num) + '.png', img)
         # ファイル名にスキルソウルが入っている場合
         elif "スキルソウル" in file_name:
+            img = cv2.resize(img, img_size)
             if not os.path.exists(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name):
                 os.mkdir(dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name)
                 sizing_dir_path = dir_path + file_name.split('スキルソウル')[0] + "/" + "スキルソウル" + "/" + folder_name
