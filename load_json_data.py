@@ -16,7 +16,7 @@ class JsonData:
         self.json_data = json.load(self.json_data_open)
         self.json_data_open.close()
 
-    def get_item(self):
+    def get_items(self):
         """
 
         Returns
