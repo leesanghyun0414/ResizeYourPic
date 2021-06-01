@@ -79,9 +79,9 @@ for dir_path in dir_path_list:
         # すでにフォルダーが存在するか判定する
         if skillsoul_string in file_name:
             file_num = character_number.get_character_num(file_name.split(skillsoul_string)[0], id_type)
+            file_num_female = file_num.replace('5', '4', 1)
         else:
             file_num = character_number.get_character_num(file_name.split('アップ')[0], id_type)
-        file_num_female = file_num.replace('5', '4', 1)
 
         # スキルソウルがファイル名に含まれなかった場合
         if not os.path.exists(dir_path + file_name) and skillsoul_string not in file_name:
@@ -97,8 +97,7 @@ for dir_path in dir_path_list:
         # フォルダ名と画像サイズのdictをループさせる
         for folder_name, img_size in folder_name_and_size_dict.items():
             numbering_folder = os.path.join(character_folder_path, folder_name)
-            if 'アップ' not in file_name and skillsoul_string not in file_name and (
-                    folder_name == '640x640' or folder_name == '320x320'):
+            if 'アップ' not in file_name and skillsoul_string not in file_name and (folder_name == '640x640'):
                 img = cv2.resize(img, img_size)
                 if (not os.path.exists(numbering_folder)) and skillsoul_string not in file_name:
                     os.mkdir(numbering_folder)
@@ -107,6 +106,7 @@ for dir_path in dir_path_list:
                     # file_numが5桁未満の場合はファイル名先頭を0で埋める
                     if int(file_num) < 10000:
                         cv2_jp.imwrite(sizing_dir_path + "/" + "0" + file_num + f'.{save_file_type}', img)
+                        print("this called")
                     elif int(file_num) < 1000:
                         cv2_jp.imwrite(sizing_dir_path + "/" + "00" + file_num + f'.{save_file_type}', img)
                     elif int(file_num) < 100:
@@ -137,17 +137,17 @@ for dir_path in dir_path_list:
                         else:
                             cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(num) + '.png', img)
             # 320x320サイズにはロゴ無しイメージを保存する
-            # elif ('アップ' and 'ロゴ無し') in file_name and folder_name == '320x320':
-            #     img = cv2.resize(img, img_size)
-            #     if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
-            #         os.mkdir(numbering_folder)
-            #         sizing_dir_path = numbering_folder
-            #         cv2_jp.imwrite(sizing_dir_path + "/" + "0" + file_num + '.png', img)
-            #         for num in range(1, 11):
-            #             if num != 10:
-            #                 cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(num) + '.png', img)
-            #             else:
-            #                 cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(num) + '.png', img)
+            elif ('アップ' and 'ロゴ無し') in file_name and folder_name == '320x320':
+                img = cv2.resize(img, img_size)
+                if (not os.path.exists(numbering_folder)) and "スキルソウル" not in file_name:
+                    os.mkdir(numbering_folder)
+                    sizing_dir_path = numbering_folder
+                    cv2_jp.imwrite(sizing_dir_path + "/" + "0" + file_num + '.png', img)
+                    for num in range(1, 11):
+                        if num != 10:
+                            cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(num) + '.png', img)
+                        else:
+                            cv2_jp.imwrite(sizing_dir_path + "/" + file_num + str(num) + '.png', img)
             # ファイル名にスキルソウルが入っている場合
             elif skillsoul_string in file_name:
                 img = cv2.resize(img, img_size)
@@ -160,6 +160,9 @@ for dir_path in dir_path_list:
                     for num in range(1, 6):
                         cv2_jp.imwrite(sizing_dir_path + "/" + file_num + "0" + str(num) + '.png', img)
                         cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(num) + '.png', img)
+                    # for num in range(0, 14):
+                    #     cv2_jp.imwrite(sizing_dir_path + "/" + str(int(file_num) + num) + '.png', img)
+                    # cv2_jp.imwrite(sizing_dir_path + "/" + file_num_female + "0" + str(num) + '.png', img)
         # 作成したフォルダーをキャラクターフォルダーに結合する
         if 'ロゴ無し' in file_name or 'アップ' in file_name:
             files = os.listdir(dir_path + file_name)

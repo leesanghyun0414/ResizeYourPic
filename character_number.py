@@ -2,6 +2,7 @@ import os
 from load_json_data import JsonData
 from collections.abc import Sequence
 def get_character_num(character_name, id_type= "num") -> Sequence:
+
     file_name = "chara.json"
     json_data = JsonData(file_name)
     json_data_dict = json_data.get_items()
